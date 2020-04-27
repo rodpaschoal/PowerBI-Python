@@ -1,0 +1,51 @@
+#Pairplot
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.pairplot(dataset)
+plt.show()
+
+#Correlation matrix - básico
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.heatmap(dataset.corr(),cmap='coolwarm', annot = True, linewidth =0.7)
+plt.show()
+
+#JointPlot Scatter + Histogram
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.jointplot(x='Session Duration', y='Goal Completions', data=dataset)
+plt.show()
+
+#Seaborn correlation matrix
+
+from string import ascii_letters
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.set(style="white")
+
+# Generate a large random dataset
+rs = np.random.RandomState(33)
+d = pd.DataFrame(data=rs.normal(size=(100, 26)),
+                 columns=list(ascii_letters[26:]))
+
+# Compute the correlation matrix
+corr = d.corr()
+
+# Generate a mask for the upper triangle
+mask = np.triu(np.ones_like(corr, dtype=np.bool))
+
+# Set up the matplotlib figure
+f, ax = plt.subplots(figsize=(11, 9))
+
+# Generate a custom diverging colormap
+cmap = sns.diverging_palette(220, 10, as_cmap=True)
+
+# Draw the heatmap with the mask and correct aspect ratio
+sns.heatmap(corr, mask=mask, cmap=cmap, vmax=.3, center=0,
+            square=True, linewidths=.5, cbar_kws={"shrink": .5})
