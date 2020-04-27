@@ -1,4 +1,4 @@
-#1 - Remove all null in Power Query in order to Python work properly!
+#1 - Remove all null in Power Query in order to Python work properly! Also make sure to analyse zeros.
 
 import matplotlib.pyplot as plt
 import seaborn as sns
