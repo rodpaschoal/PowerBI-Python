@@ -1,25 +1,17 @@
 #1 - Remove all null in Power Query in order to Python work properly! Also make sure to analyse zeros.
 
-import matplotlib.pyplot as plt
+  #first line
 import seaborn as sns
-#make sure to run in the end
-plt.show()
 
+  #last line
+matplotlib.pyplot.show()
+
+#Examples of nice visuals
 #Pairplot
 sns.pairplot(dataset)
 
 #Correlation matrix
 sns.heatmap(dataset.corr(),cmap='coolwarm', annot = True, linewidth =0.7)
-
-#New correlation PPS: predictive power score
-#More info: https://towardsdatascience.com/rip-correlation-introducing-the-predictive-power-score-3d90808b9598
-#Type in CMD to install: pip install ppscore
-#To get an individual pps : pps.score(dataset, "feature_column", "target_column")
-#PPS Matrix
-
-import ppscore as pps
-df_matrix = pps.matrix(dataset)
-sns.heatmap(df_matrix, vmin=0, vmax=1, cmap="Blues", linewidths=0.5, annot=True)
 
 #JointPlot Scatter + Histogram
 sns.jointplot(x='data_x', y='data_y', data=dataset)
@@ -27,7 +19,17 @@ sns.jointplot(x='data_x', y='data_y', data=dataset)
 #Violion
 sns.violinplot(x='data_x',y='data_y',data=dataset)
 
-#Seaborn correlation matrix stylish
+#New correlation for linear, non-linear and Category variables, PPS - Predictive Power score
+#More info: https://towardsdatascience.com/rip-correlation-introducing-the-predictive-power-score-3d90808b9598
+#Type to install in CMD: pip install ppscore
+#To get PPS for 2 data frames : pps.score(dataset, "feature_column", "target_column")
+
+#Plot PPS Matrix
+import ppscore as pps
+df_matrix = pps.matrix(dataset)
+sns.heatmap(df_matrix, vmin=0, vmax=1, cmap="Blues", linewidths=0.5, annot=True)
+
+#Seaborn stylish correlation matrix
 from string import ascii_letters
 import numpy as np
 import pandas as pd
