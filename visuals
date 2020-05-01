@@ -1,6 +1,10 @@
 #1 - Remove all null in Power Query in order to Python work properly! Also make sure to analyse zeros.
 #Performance tips: https://dataveld.com/2018/11/10/5-performance-tips-for-r-and-python-scripts-in-power-bi/
 
+#Other lib based in JS and with interactivity
+from bokeh.plotting import figure, output_file, show,output_notebook
+output_notebook()
+
   #first line
 import seaborn as sns
 
