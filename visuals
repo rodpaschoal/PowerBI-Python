@@ -36,7 +36,7 @@ sns.residplot(x,y)
 
 #Distribution Plot, continuous distribution instead of histogram 
 ax1 = sns.distplot(dataset['y'], hist=False, color="r", label="Actual Value")
-sns.distplot(predicted_y , hist=False, color="b", label="Fitted Values", ax=ax1)
+sns.distplot(y_predict , hist=False, color="b", label="Fitted Values", ax=ax1)
 
 #New developed correlation for linear, non-linear and Category variables, PPS - Predictive Power score
 #More info: https://towardsdatascience.com/rip-correlation-introducing-the-predictive-power-score-3d90808b9598
