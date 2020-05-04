@@ -12,7 +12,7 @@ import seaborn as sns
   #last line
 matplotlib.pyplot.show()
 
-#Examples of nice visuals
+#Examples of visuals
 #Pairplot
 sns.pairplot(dataset)
 
@@ -28,7 +28,17 @@ sns.violinplot(x='data_x',y='data_y',data=dataset)
 #Boxplot
 sns.boxplot(x='data_x',y='data_y',data=dataset)
 
-#New correlation for linear, non-linear and Category variables, PPS - Predictive Power score
+#Regression Plot
+sns.regplot(x='data_x',y='data_y',data=dataset)
+
+#Residual Plot, with inputs as series
+sns.residplot(x,y)
+
+#Distribution Plot, continuous distribution instead of histogram 
+ax1 = sns.distplot(dataset['y'], hist=False, color="r", label="Actual Value")
+sns.distplot(predicted_y , hist=False, color="b", label="Fitted Values", ax=ax1)
+
+#New developed correlation for linear, non-linear and Category variables, PPS - Predictive Power score
 #More info: https://towardsdatascience.com/rip-correlation-introducing-the-predictive-power-score-3d90808b9598
 #Type to install in CMD: pip install ppscore
 #To get PPS for 2 data frames : pps.score(dataset, "feature_column", "target_column")
