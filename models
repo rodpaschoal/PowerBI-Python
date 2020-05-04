@@ -1,14 +1,23 @@
-#1 - Think of removing outliers from the sample before making the model
+#1 - Think of removing outliers from the sample before creating the model
 
-#Pearson coefficient and p-value
+#Pearson correlation coefficient and p-value
 #input x and y as array
-#output (Pearson coefficient, p-value)
+#output (Pearson coefficient, p-value) tuple
  
  import scipy as sp
- scipy.stats.pearsonr(x, y)
+ result = sp.stats.pearsonr( dataset['x'] , dataset['y'] )
 
-#Linear regression
+#Linear regression, x input may have the indexes being a 2D dataframe
+ 
+ from sklearn.linear_model import LinearRegression
+ lm = LinearRegression()
+ lm.fit( dataset[['x']] , dataset['y'] )
+ result = pandas.DataFrame( {'Coefficient': lm_coef_ , 'Intercept': lm_intercept_} )
 
+#Multiple Linear regression, x's inputs may have the indexes being a 2D dataframe
+
+ lm.fit( dataset[['x1','x2','x3','x4','x5']] , dataset['y'] )
+ result = pandas.DataFrame( {'Coefficients': lm_coef_, 'Intercept': lm_intercept_} )
 
 #Polynomial regression
 
