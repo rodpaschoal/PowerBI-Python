@@ -1,4 +1,4 @@
-#1 - Always normalize data to make models
+#1 - Think of removing outliers from the sample before making the model
 
 #Pearson coefficient and p-value
 #input x and y as array
