@@ -13,6 +13,14 @@ import seaborn as sns
 matplotlib.pyplot.show()
 
 #Examples of visuals
+
+#Simple table with the dataframe
+fig = matplotlib.pyplot.figure()
+ax = fig.add_subplot(111)
+ax.axis('off')
+the_table=ax.table(cellText=vals, rowLabels=dataset.index, colLabels=dataset.columns, 
+                   loc='center', cellColours=plt.cm.RdYlGn(normal),animated=True)
+                   
 #Pairplot
 sns.pairplot(dataset)
 
