@@ -1,3 +1,5 @@
+#1 - Always normalize data to make models
+
 #Pearson coefficient and p-value
 #input x and y as array
 #output (Pearson coefficient, p-value)
