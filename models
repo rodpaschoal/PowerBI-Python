@@ -12,3 +12,11 @@
 
 #Polynomial regression
 
+
+#Mean Squared Error (MSE)
+from sklearn.metrics import mean_squared_error
+MSE = mean_squared_error(dataset['y'], y_predict)
+
+#R-squared (R²)
+from sklearn.linear_model import LinearRegression
+LinearRegression.score(X,y)
