@@ -1,6 +1,6 @@
 #1 - Think of removing outliers from the sample before creating the model
 
-#Pearson Correlation Coefficient and p-value
+#Pearson to find the Correlation Coefficient and p-value
 #input x and y as array
 #output (Pearson coefficient, p-value) tuple
  
@@ -18,32 +18,51 @@
  from sklearn.linear_model import LinearRegression
  lm = LinearRegression()
  lm.fit( x,y )
- result = pandas.DataFrame( {'Coefficient': lm_coef_ , 'Intercept': lm_intercept_ , 'R2': lm_score(x,y) } )
+ result = pandas.DataFrame( {'Coefficient': lm.coef_ , 'Intercept': lm.intercept_ , 'R2': lm.score(x,y) } )
 
+#Once the model is complete, to predict new values do
+
+ predictions = lm.predict( dataset['new values'] )
+ 
 #Multiple Linear regression, x's inputs may have the indexes being a 2D dataframe
 
  xs = dataset[['x1','x2','x3','x4','x5']]
  y = dataset['y']
  lm.fit( xs,y )
- result = pandas.DataFrame( {'Coefficients': lm_coef_, 'Intercept': lm_intercept_ , 'R2': lm_score(xs,y) } )
+ result = pandas.DataFrame( {'Coefficients': lm.coef_, 'Intercept': lm.intercept_ , 'R2': lm.score(xs,y) } )
 
 #Polynomial Regression of 3rd order
 
  import numpy as np
- f = np.polyfit( dataset['x'] , dataset['y'] , 3 ) #return an array with the 3 coefficients and the intercept
- p = np.poly1d( f ) #return a numpy.poly1d object
- result = pandas.DataFrame( {'Coefficients': p } )
+ from sklearn.metrics import r2_score
+ 
+ x = dataset['x']
+ y = dataset['y']
+ f = np.polyfit( x , y , 3 )   #return an array with the 3 coefficients and the intercept
+ y_predict = np.poly1d( f )    #return a numpy.poly1d equation 
+ 
+ r2 = r2_score( y, y_predict(x) )
+ result = pandas.DataFrame( {'Equation': y_predict , 'R2': r2} )
+  
   
 #Multiple Polynomial Regression of 2nd order 
-#Y = a + b1x1 + b2x2 + b3x1x2 + b4x1² + b5x2²
-#First, we need to transform the features in a polynomial equations before deploying the model
+#This one requires a bit more abstraction from linear algebra to understand
+#Y = a + b1*x1 + b2*x2 + b3*x1x2 + b4*x1² + b5*x2² (for 2 variables -> 5 coefficients)
+#First, we need to transform the features in polynomial equations before deploying the model
 
+ xs = dataset[['x1','x2','x3','x4','x5']]
+ 
+ from sklearn.linear_model import LinearRegression
  from sklearn.preprocessing import PolynomialFeatures
  pr = PolynomialFeatures(degree=2)
- dataset_pr = pr.fit_transform( dataset )
- result = pandas.DataFrame( {'Equations': dataset_pr } )
+ xs_pr = pr.fit_transform( xs )
  
-#Pipeline to do a Polynomial Regression within one line
+ #Now the data is linearized and we need to find the coefficients that best fit these equations to result in y
+ lm = LinearRegression() 
+ lm.fit( xs_pr , y )
+ result = pandas.DataFrame( {'Coefficients': lm.coef_ , 'Intercept': lm.intercept_ , 'R2': lm.score(xs_pr,y) } )
+ 
+#Pipeline to Multiple Polynomial Regression easier
 
  from sklearn.pipeline import Pipeline
  from sklearn.preprocessing import StandardScaler
@@ -55,16 +74,24 @@
  xs = dataset[['x1','x2','x3','x4','x5']]
  y = dataset['y']
  pipe.fit( xs , y )
-
- ypipe=pipe.predict( xs )
+ result = pandas.DataFrame( {'Coefficients': lm_coef_ , 'Intercept': lm_intercept_ , 'R2': lm_score(xs_pr,y) } )
  
-
-#Mean Squared Error (MSE)
+#Mean Squared Error (MSE) for Linear Regression
 
  from sklearn.metrics import mean_squared_error
  MSE = mean_squared_error(dataset['y'], y_predict)
 
-#R-squared (R²)
+#R-squared (R²) for Linear Regression
 
  from sklearn.linear_model import LinearRegression
  LinearRegression.score(X,y)
+
+#Mean Squared Error (MSE) for Polynomial Fit
+
+ from sklearn.metrics import mean_squared_error
+ MSE = mean_squared_error( dataset['y'], y_predict(x) )
+
+#R-squared (R²) for Polynomial Fit
+
+ from sklearn.metrics import r2_score
+ r2 = r2_score( dataset['y'], y_predict(x) )
