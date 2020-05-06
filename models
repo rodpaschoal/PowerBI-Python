@@ -95,3 +95,21 @@
 
  from sklearn.metrics import r2_score
  r2 = r2_score( dataset['y'], y_predict(x) )
+ 
+#Out-of-sample evaluations
+#1 - Splitting the data in train and test samples
+
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(dataset['x'], dataset['y'], test_size=0.15, random_state=1)
+
+#R2 for the test data
+
+lr = LinearRegression()
+lr.fit(x_train, y_train)
+lr.score(x_test, y_test)
+
+#Multiple cross-validation samples (ex: cv=4)
+
+from sklearn.model_selection import cross_val_score
+r2cross = cross_val_score(lr, x, y, cv=4)
+return = pandas.DataFrame( {'R2 in cvs samples': r2cross, 'R2 average': r2cross.mean() , 'R2 std deviation': r2cross.std()} )
