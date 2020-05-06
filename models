@@ -119,7 +119,7 @@ return = pandas.DataFrame( {'R2 in cvs samples': r2cross, 'R2 average': r2cross.
 from sklearn.linear_model import Ridge
 rr = Ridge(alpha = 0.1)
 rr.fit(x_train , y_train)
-y_predict = rr.predict(x_test)
+return = rr.score(x_test, y_test)
 
 #Using Grid Search to find the best hyperparameters like alpha for the Ridge 
 
