@@ -7,7 +7,11 @@ from bokeh.plotting import figure, output_file, show,output_notebook
 output_notebook()
 
   #first line
+import matplotlib as mpl
 import seaborn as sns
+
+  #change the look to ggplot style (gold tip)
+mpl.style.use(['ggplot'])
 
   #last line
 matplotlib.pyplot.show()
