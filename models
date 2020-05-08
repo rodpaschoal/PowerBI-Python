@@ -1,4 +1,4 @@
-#Models here are rather used in back-end python scripts
+#Models are rather used in back-end python scripts
 #After evaluating the model apply it to Transform Data within Power Query
 
 #1 - Think of removing outliers from the sample before creating the model
