@@ -35,7 +35,12 @@ dataset.plot.bar()   #Bar
 dataset.plot.barh()  #Bars in horizontal
 dataset.plot.pie()   #Pie chart
 dataset.plot.box()   #Boxplot (vert=False) come in handy
-dataset.plot.scatter(dataset['x'], dataset['y'])   #Scatter
+dataset.plot.scatter(x='x', y='y')   #Scatter 
+
+#Bubble from size of scatter points
+ax1 = dataset.plot.scatter(x='x1', y='y', alpha=0.5, color='green', s= x1_normalized * 2000 + 10 )
+ax2 = dataset.plot.scatter(x='x2', y='y', alpha=0.5, color='blue', s= x2_normalized * 20000 + 10 , ax = ax1)
+
 
 #Plots from seaborn library
                    
