@@ -53,6 +53,9 @@ sns.heatmap(dataset.corr(),cmap='coolwarm', annot = True, linewidth =0.7)
 #JointPlot Scatter + Histogram
 sns.jointplot(x='data_x', y='data_y', data=dataset)
 
+#Countplot (histogram)
+sns.countplot(dataset)
+
 #Violion
 sns.violinplot(x='data_x',y='data_y',data=dataset)
 
