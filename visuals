@@ -16,6 +16,9 @@ mpl.style.use(['ggplot'])
   #last line
 matplotlib.pyplot.show()
 
+#Find the best palette in seaborn library
+palette = sns.color_palette('Blues', N_Samples)
+
 #Examples of visuals
 
 #Plots from matplotlib.pyplot
