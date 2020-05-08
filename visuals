@@ -65,6 +65,9 @@ sns.violinplot(x='data_x',y='data_y',data=dataset)
 #Boxplot
 sns.boxplot(x='data_x',y='data_y',data=dataset)
 
+#Catplot (distribution-like scatter)
+sns.catplot(x='data_x',y='data_y',data=dataset)
+
 #Regression Plot
 sns.regplot(x='data_x',y='data_y',data=dataset)
 
