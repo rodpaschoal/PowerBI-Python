@@ -78,7 +78,21 @@
  y = dataset['y']
  pipe.fit( xs , y )
  result = pandas.DataFrame( {'Coefficients': lm_coef_ , 'Intercept': lm_intercept_ , 'R2': lm_score(xs_pr,y) } )
- 
+
+#Non-linear regression (ex: logistic function)
+
+def f(x, p1, p2):
+ return 1 / (1+ np.exp(-p1*(x-p2))
+
+from scipy.optimize import curve_fit
+popt, pcov = curve_fit(f,x,y)
+y_pred = f(x,*popt)
+
+#EVALUATE THE MODEL
+#Mean Absolute Error (MAE)
+
+MAE = np.mean( np.absolute(y - y_pred) )
+
 #Mean Squared Error (MSE) for Linear Regression
 
  from sklearn.metrics import mean_squared_error
