@@ -60,10 +60,10 @@
  pr = PolynomialFeatures(degree=2)
  xs_pr = pr.fit_transform( xs )
  
- #Now the data is linearized and we need to find the coefficients that best fit these equations to result in y
- poly = LinearRegression() 
- poly.fit( xs_pr , y )
- result = pandas.DataFrame( {'Coefficients': poly.coef_ , 'Intercept': poly.intercept_ , 'R2': poly.score(xs_pr,y) } )
+ #The features were transformed in new features with the order x, x2 and all combinations. Now we run a Linear Regression in this new dataframe
+ lm = LinearRegression() 
+ lm.fit( xs_pr , y )
+ result = pandas.DataFrame( {'Coefficients': lm.coef_ , 'Intercept': lm.intercept_ , 'R2': lm.score(xs_pr,y) } )
  
 #Pipeline to Multiple Polynomial Regression easier
 
@@ -88,7 +88,24 @@ from scipy.optimize import curve_fit
 popt, pcov = curve_fit(f,x,y)
 y_pred = f(x,*popt)
 
+#KNN - K Nearest neighbors - Classification model
+
+#Necessary to standardize (u=0, dp=1) because the model is based in euclidean distance between features
+from sklearn.preprocessing import StandardScaler
+std = StandardScaler()
+X = std.fit_transform(X)
+
+from sklearn.neighbors import KNeighborsClassifier
+knn = KNeighborsClassifier(n_neighbors = k)
+knn.fit(X_train,y)
+y_pred = knn.predict(X_test)
+
 #EVALUATE THE MODEL
+#KNN
+from sklearn.metrics import accuracy_score
+jackard_train = accuracy_score(y_train, knn.predict(X_train))
+jackard_test = accuracy_score(y_test, y_pred)
+
 #Mean Absolute Error (MAE)
 
 MAE = np.mean( np.absolute(y - y_pred) )
@@ -117,7 +134,7 @@ MAE = np.mean( np.absolute(y - y_pred) )
 #1 - Splitting the data in train and test samples
 
 from sklearn.model_selection import train_test_split
-x_train, x_test, y_train, y_test = train_test_split(dataset['x'], dataset['y'], test_size=0.15, random_state=1)
+x_train, x_test, y_train, y_test = train_test_split(dataset['x'], dataset['y'], test_size=0.2, random_state=1)
 
 #R2 for the test data
 
