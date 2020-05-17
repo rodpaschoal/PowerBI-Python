@@ -100,7 +100,41 @@ knn = KNeighborsClassifier(n_neighbors = k)
 knn.fit(X_train,y)
 y_pred = knn.predict(X_test)
 
+#Decision Tree - Classification model
+from sklearn.tree import DecisionTreeClassifier
+tree = DecisionTreeClassifier()
+tree.fit(X,y)
+y_tree = tree.predict(X)
+
+#You may need to transform text classifications to numbers
+from sklearn.preprocessing import LabelEconder()
+le = LabelEnconder()
+X = le.fit_transform(X)
+
 #EVALUATE THE MODEL
+#Decision Tree
+from sklearn.metrics import accuracy_score
+tree_acc = accuracy_score(y,y_tree)
+
+#Print the Tree
+#!conda install -c conda-forge pydotplus -y
+#conda install -c conda-forge python-graphviz -y
+from sklearn.externals.six import StringIO
+import pydotplus
+import matplotlib.image as mpimg
+from sklearn import tree
+
+dot_data = StringIO()
+filename = "tree.png"
+featureNames = X.columns
+targetNames = df["Target"].unique().tolist()
+out=tree.export_graphviz(tree,feature_names=featureNames, out_file=dot_data, class_names= np.unique(y_trainset), filled=True,  special_characters=True,rotate=False)  
+graph = pydotplus.graph_from_dot_data(dot_data.getvalue())  
+graph.write_png(filename)
+img = mpimg.imread(filename)
+plt.figure(figsize=(100, 200))
+plt.imshow(img,interpolation='nearest')
+
 #KNN
 from sklearn.metrics import accuracy_score
 jackard_train = accuracy_score(y_train, knn.predict(X_train))
