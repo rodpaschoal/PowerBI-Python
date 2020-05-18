@@ -162,8 +162,7 @@ print(df.groupby('cluster').mean())
 
 #DBSCAN - Density-Based Spacial Clustering of Applications with Noise
 from sklearn.cluster import DBSCAN 
-dbscan = DBSCAN(eps=0.3, min_samples=7)
-dbscan.fit(X)
+dbscan = DBSCAN(eps=0.3, min_samples=7).fit(X)   #Instance and fit in the same line
 df['cluster'] = dbscan.labels_
 
 ####EVALUATE THE MODEL
