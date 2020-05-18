@@ -229,7 +229,7 @@ lr.score(x_test, y_test)
 from sklearn.model_selection import cross_val_score
 from sklearn import metrics
 
-scores = cross_val_score(lr, X, y, cv=4, scoring='f1_macro' )   #OR any model you want instead of lr
+scores = cross_val_score(lr, X, y, cv=4, scoring='f1' )   #OR any model you want instead of lr
 print('Score in cvs samples ', scores)
 print('Score average ' scores.mean())
 print('Score std deviation ' scores.std()} )
@@ -242,7 +242,7 @@ parameters = [{'alpha': [0.001, 0.1, 10, 100, 1000, 10000, 100000, 10000000]}]  
 rr=Ridge()
 grid = GridSearchCV(rr, parameters, cv=4)
 grid.fit(x_data, y_data)
-best_rr = grid.best_estimator_
+rr = grid.best_estimator_
 
 return = pandas.DataFrame( { 'Best model score': best_rr.score(x_test, y_test) } )
 
