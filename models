@@ -111,12 +111,33 @@ from sklearn.preprocessing import LabelEconder()
 le = LabelEnconder()
 X = le.fit_transform(X)
 
-#EVALUATE THE MODEL
-#Decision Tree
-from sklearn.metrics import accuracy_score
-tree_acc = accuracy_score(y,y_tree)
+#Logistic Regression
+from sklearn.linear_model import LogisticRegression
+LR = LogisticRegression(C=0.01, solver='liblinear')   #or leave empty for default settings
+LR.fit(X_train,y_train)
+y_logi = LR.predict(X_test)
+y_logi_prob = LR.predict_proba(X_test)
 
-#Print the Tree
+
+####EVALUATE THE MODEL
+#Jaccard index (works for KNN, Decision Tree, Logistic Regression)
+from sklearn.metrics import accuracy_score
+tree_acc = accuracy_score(y,y_pred)
+
+#Confusion matrix
+conda install -c districtdatalabs yellowbrick
+from yellowbrick.classifier import ConfusionMatrix
+from sklearn.metrics import classification_report, confusion_matrix
+
+confusion_matrix(
+    LogisticRegression(),                           #or any classifier model you would like
+    X_train, y_train, X_test, y_test,
+    classes=['categ1', 'categ2']
+)
+plt.tight_layout()
+print (classification_report(y_test, y_pred))
+
+#Print the Decision Tree
 #!conda install -c conda-forge pydotplus -y
 #conda install -c conda-forge python-graphviz -y
 from sklearn.externals.six import StringIO
