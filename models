@@ -14,6 +14,7 @@
 
  result = dataset.corr()
 
+#REGRESSION MODELS
 #Linear Regression, x input may have the indexes being a 2D dataframe
  
  x = dataset[['x']]
@@ -78,6 +79,13 @@
  y = dataset['y']
  pipe.fit( xs , y )
  result = pandas.DataFrame( {'Coefficients': lm_coef_ , 'Intercept': lm_intercept_ , 'R2': lm_score(xs_pr,y) } )
+ 
+#RidgeModel searchs to minimize the Least Squares, by damping the coefficients and avoid overfitting in the linear regression model
+
+from sklearn.linear_model import Ridge
+rr = Ridge(alpha = 0.1)
+rr.fit(x_train , y_train)
+return = rr.score(x_test, y_test)
 
 #Non-linear regression (ex: logistic function)
 
@@ -88,9 +96,11 @@ from scipy.optimize import curve_fit
 popt, pcov = curve_fit(f,x,y)
 y_pred = f(x,*popt)
 
-#KNN - K Nearest neighbors - Classification model
+#CLASSIFICATION MODELS
 
-#Necessary to standardize (u=0, dp=1) because the model is based in euclidean distance between features
+#KNN - K Nearest neighbors
+
+#Necessary to standardize (u=0, dp=1) because the model KNN is based in euclidean distance between features
 from sklearn.preprocessing import StandardScaler
 std = StandardScaler()
 X = std.fit_transform(X)
@@ -101,16 +111,10 @@ knn.fit(X_train,y)
 y_pred = knn.predict(X_test)
 
 #Decision Tree - Classification model
-from sklearn.tree import DecisionTreeClassifier
+from sklearn import tree
 dtclf = tree.DecisionTreeClassifier()
 dtclf.fit(X,y)
 y_tree = dtclf.predict(X)
-tree.plot_tree(dtclf)
-
-#You may need to transform text classifications to numbers
-from sklearn.preprocessing import LabelEconder()
-le = LabelEnconder()
-X = le.fit_transform(X)
 
 #Logistic Regression
 from sklearn.linear_model import LogisticRegression
@@ -119,11 +123,32 @@ LR.fit(X_train,y_train)
 y_logi = LR.predict(X_test)
 y_logi_prob = LR.predict_proba(X_test)
 
+#You may need to transform text classifications to numbers
+from sklearn.preprocessing import LabelEconder()
+le = LabelEnconder()
+X = le.fit_transform(X)
+
+#SVM Support Vector Machines
+from sklearn import svm
+svmclf = svm.SVC(kernel='rbf')
+svmclf.fit(X_train, y_train) 
+y_svm = svmclf.predict(X_test)
 
 ####EVALUATE THE MODEL
+
+#CLASSIFICATION MODELS
+
 #Jaccard index (works for KNN, Decision Tree, Logistic Regression)
 from sklearn.metrics import accuracy_score
-tree_acc = accuracy_score(y,y_pred)
+clf_acc = accuracy_score(y,y_pred)
+clf_acc_train = accuracy_score(y_train, y_pred)
+
+#F1 Score
+from sklearn.metrics import f1_score
+f1_score(y_test, y_pred, average='weighted') 
+
+#Classification report
+print('Classifier XYZ \n:', classification_report(y_test, y_pred)
 
 #Confusion matrix
 conda install -c districtdatalabs yellowbrick
@@ -139,10 +164,12 @@ plt.tight_layout()
 print (classification_report(y_test, y_pred))
 
 #Print the Decision Tree
-tree.plot_tree(df)
+tree.plot_tree(dtclf).                                              #image
+or
+print(tree.export_text(dtclf, feature_names=X.columns.values)       #text
 or
 #!conda install -c conda-forge pydotplus -y
-#conda install -c conda-forge python-graphviz -y
+#conda install -c conda-forge python-graphviz -y                    #image export
 from sklearn.externals.six import StringIO
 import pydotplus
 import matplotlib.image as mpimg
@@ -159,31 +186,28 @@ img = mpimg.imread(filename)
 plt.figure(figsize=(100, 200))
 plt.imshow(img,interpolation='nearest')
 
-#KNN
-from sklearn.metrics import accuracy_score
-jackard_train = accuracy_score(y_train, knn.predict(X_train))
-jackard_test = accuracy_score(y_test, y_pred)
 
-#Mean Absolute Error (MAE)
+#REGRESSION METRICS
+#Mean Absolute Error (MAE) 
 
 MAE = np.mean( np.absolute(y - y_pred) )
 
-#Mean Squared Error (MSE) for Linear Regression
+#Mean Squared Error (MSE) 
 
  from sklearn.metrics import mean_squared_error
  MSE = mean_squared_error(dataset['y'], y_predict)
 
-#R-squared (R²) for Linear Regression
+#R-squared (R²) 
 
  from sklearn.linear_model import LinearRegression
  LinearRegression.score(X,y)
 
-#Mean Squared Error (MSE) for Polynomial Fit
+#Mean Squared Error (MSE) 
 
  from sklearn.metrics import mean_squared_error
  MSE = mean_squared_error( dataset['y'], y_predict(x) )
 
-#R-squared (R²) for Polynomial Fit
+#R-squared (R²) 
 
  from sklearn.metrics import r2_score
  r2 = r2_score( dataset['y'], y_predict(x) )
@@ -203,15 +227,13 @@ lr.score(x_test, y_test)
 #Cross-validation samples (ex: cv=4)
 
 from sklearn.model_selection import cross_val_score
-r2cross = cross_val_score(lr, x, y, cv=4 )
-return = pandas.DataFrame( {'R2 in cvs samples': r2cross, 'R2 average': r2cross.mean() , 'R2 std deviation': r2cross.std()} )
+from sklearn import metrics
 
-#RidgeModel searchs to minimize the Least Squares, by damping the coefficients and avoid overfitting in the linear regression model
-
-from sklearn.linear_model import Ridge
-rr = Ridge(alpha = 0.1)
-rr.fit(x_train , y_train)
-return = rr.score(x_test, y_test)
+scores = cross_val_score(lr, X, y, cv=4, scoring='f1_macro' )   #OR any model you want instead of lr
+print('Score in cvs samples ', scores)
+print('Score average ' scores.mean())
+print('Score std deviation ' scores.std()} )
+print('Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 
 #Using Grid Search to find the best hyperparameters like alpha for the Ridge 
 
