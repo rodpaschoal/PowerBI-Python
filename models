@@ -229,7 +229,7 @@ lr.score(x_test, y_test)
 from sklearn.model_selection import cross_val_score
 from sklearn import metrics
 
-scores = cross_val_score(lr, X, y, cv=4, scoring='f1' )   #OR any model you want instead of lr
+scores = cross_val_score(lr, X, y, cv=4, scoring='f1' )   #OR any model you want instead of lr, scoring list: https://scikit-learn.org/stable/modules/model_evaluation.html
 print('Score in cvs samples ', scores)
 print('Score average ' scores.mean())
 print('Score std deviation ' scores.std()} )
