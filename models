@@ -105,6 +105,11 @@ from sklearn.preprocessing import StandardScaler
 std = StandardScaler()
 X = std.fit_transform(X)
 
+#Other preprocessing method (scale down the number to 0=min 1=max, and do not change the numbers due to Standard Deviation)
+from sklearn.preprocessing import MinMaxScaler
+mm_scaler = MinMaxScaler()
+X_minmax = mm_scaler.fit_transform(X)
+
 from sklearn.neighbors import KNeighborsClassifier
 knn = KNeighborsClassifier(n_neighbors = k)
 knn.fit(X_train,y)
@@ -133,6 +138,14 @@ from sklearn import svm
 svmclf = svm.SVC(kernel='rbf')
 svmclf.fit(X_train, y_train) 
 y_svm = svmclf.predict(X_test)
+
+#CLUSTERING
+#Hierarchical
+from sklearn.cluster import AgglomerativeClustering 
+agglom = AgglomerativeClustering(n_clusters = 6, linkage = 'complete')
+agglom.fit(df)
+df['cluster'] = agglom.labels_
+print(df.groupby('cluster').mean())
 
 ####EVALUATE THE MODEL
 
